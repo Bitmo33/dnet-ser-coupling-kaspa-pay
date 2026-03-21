@@ -51,15 +51,22 @@ https://bitmo33.github.io/dnet-ser-coupling-simulator/
 ## Keywords
 
 SER coupling  
-digital payments  
 transaction lifecycle  
+digital payments  
+payment architecture  
 settlement  
 exchange  
 record generation  
 TxID  
 fintech  
 blockchain  
-payment architecture
+Web3  
+cryptocurrency  
+stablecoin  
+BlockDAG  
+Kaspa  
+cashless payments  
+Kaspa Pay
 
 ## Reference Context
 
