@@ -19,6 +19,15 @@ The demo illustrates both:
 - a **successful SER-coupled finalization**
 - a **failure / rollback path** when one stage does not complete
 
+## SER Coupling Model
+
+A digital payment event is defined as a coupled transaction state:
+
+SER(TxID) = S(TxID) ∧ E(TxID) ∧ R(TxID)
+
+Settlement, exchange, and record generation must complete
+under a single transaction identifier to form a valid payment state.
+
 ## Purpose
 
 This repository is intended as a **reference-style research demo** accompanying the DNET paper.
