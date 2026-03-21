@@ -1,6 +1,8 @@
-# DNET SER Coupling Simulator
+Reference simulator for the SER (Settlement–Exchange–Record) coupling model described in the DNET® architecture paper.
 
-This repository contains a conceptual simulator based on the SER (Settlement–Exchange–Record) coupling model described in the DNET architecture paper.
+# DNET® SER Coupling Simulator
+
+This repository contains a conceptual simulator based on the SER (Settlement–Exchange–Record) coupling model described in the DNET® architecture paper.
 
 ## Overview
 
@@ -43,6 +45,19 @@ https://bitmo33.github.io/dnet-ser-coupling-simulator/
 ## Related Paper
 
 **DNET: An Interface Architecture for Settlement–Exchange–Record Coupling in Digital Payments**
+
+## Keywords
+
+SER coupling  
+digital payments  
+transaction lifecycle  
+settlement  
+exchange  
+record generation  
+TxID  
+fintech  
+blockchain  
+payment architecture
 
 ## Reference Context
 
