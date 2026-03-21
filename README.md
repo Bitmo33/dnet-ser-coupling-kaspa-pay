@@ -30,7 +30,7 @@ under a single transaction identifier to form a valid payment state.
 
 ## Purpose
 
-This repository is intended as a **reference-style research demo** accompanying the DNET paper.
+This repository is intended as a **reference-style research demo** accompanying the DNET® paper.
 
 It is designed to help visualize:
 
@@ -45,7 +45,7 @@ It is designed to help visualize:
 - It is provided for **research, demonstration, and explanatory purposes**.
 - The simulator is aligned with the theoretical SER coupling model described in the paper and does not claim exclusivity or production completeness.
 - This repository serves as a reference-style conceptual implementation
-for the SER coupling architecture described in the DNET paper.
+for the SER coupling architecture described in the DNET® paper.
   
 ## Live Demo
 
@@ -75,7 +75,7 @@ stablecoin
 BlockDAG  
 Kaspa  
 cashless payments  
-Kaspa Pay
+Kaspa Pay®
 
 ## Reference Context
 
