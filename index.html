@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DNET SER-Coupling Simulator</title>
+  <style>
+    body {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      background: #f4f7f9;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      padding: 40px 16px;
+      margin: 0;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 720px;
+      background: white;
+      padding: 28px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 24px;
+      border-bottom: 2px solid #007bff;
+      padding-bottom: 10px;
+      color: #007bff;
+      margin-top: 0;
+    }
+
+    .sub {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 16px;
+    }
+
+    .tx-box {
+      background: #eef2f5;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-family: monospace;
+      font-size: 14px;
+      border-left: 5px solid #007bff;
+      border: 1px solid #d0d7de;
+      white-space: pre-line;
+    }
+
+    .process-row {
+      display: flex;
+      align-items: center;
+      margin: 12px 0;
+      padding: 12px;
+      border-radius: 10px;
+      transition: 0.25s;
+      background: #f8f9fa;
+      border: 1px solid transparent;
+    }
+
+    .status-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid #ccc;
+      margin-right: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
+      color: white;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .label-wrap {
+      flex-grow: 1;
+    }
+
+    .label {
+      font-weight: bold;
+      margin-bottom: 2px;
+    }
+
+    .meta {
+      font-size: 12px;
+      color: #666;
+      font-family: monospace;
+    }
+
+    .active {
+      background: #e7f1ff;
+      border-color: #007bff;
+    }
+
+    .active .status-icon {
+      background: #007bff;
+      border-color: #007bff;
+    }
+
+    .active .status-icon::after {
+      content: "…";
+    }
+
+    .done {
+      background: #eef9f0;
+      border-color: #28a745;
+    }
+
+    .done .status-icon {
+      background: #28a745;
+      border-color: #28a745;
+    }
+
+    .done .status-icon::after {
+      content: "✓";
+    }
+
+    .failed {
+      background: #fff0f1;
+      border-color: #dc3545;
+    }
+
+    .failed .status-icon {
+      background: #dc3545;
+      border-color: #dc3545;
+    }
+
+    .failed .status-icon::after {
+      content: "×";
+    }
+
+    .pending {
+      opacity: 0.7;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      flex: 1;
+      min-width: 220px;
+      padding: 14px 16px;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn-primary {
+      background: #007bff;
+    }
+
+    .btn-primary:hover {
+      background: #0056b3;
+    }
+
+    .btn-danger {
+      background: #6c757d;
+    }
+
+    .btn-danger:hover {
+      background: #495057;
+    }
+
+    #log {
+      margin-top: 20px;
+      font-size: 13px;
+      color: #666;
+      min-height: 130px;
+      max-height: 220px;
+      overflow-y: auto;
+      background: #fafafa;
+      padding: 12px;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      font-family: monospace;
+      line-height: 1.6;
+    }
+
+    .card {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 10px;
+      display: none;
+    }
+
+    .record-card {
+      background: #fff3cd;
+      border: 1px solid #ffeeba;
+    }
+
+    .rollback-card {
+      background: #f8d7da;
+      border: 1px solid #f5c6cb;
+    }
+
+    .json-box {
+      font-size: 12px;
+      font-family: monospace;
+      white-space: pre-wrap;
+      margin-top: 10px;
+      background: rgba(255,255,255,0.55);
+      padding: 10px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>DNET: SER Coupling Simulator</h1>
+    <div class="sub">Reference-style concept simulator for the paper “DNET ver.1.0”</div>
+
+    <div class="tx-box" id="tx-info">TxID: -
+Status: IDLE
+Lifecycle: Waiting for payment request</div>
+
+    <div id="step-s" class="process-row pending">
+      <div class="status-icon"></div>
+      <div class="label-wrap">
+        <div class="label">[S] Settlement</div>
+        <div class="meta" id="meta-s">TxID: - / high-speed settlement execution</div>
+      </div>
+    </div>
+
+    <div id="step-e" class="process-row pending">
+      <div class="status-icon"></div>
+      <div class="label-wrap">
+        <div class="label">[E] Exchange</div>
+        <div class="meta" id="meta-e">TxID: - / asset exchange and liquidity selection</div>
+      </div>
+    </div>
+
+    <div id="step-r" class="process-row pending">
+      <div class="status-icon"></div>
+      <div class="label-wrap">
+        <div class="label">[R] Record</div>
+        <div class="meta" id="meta-r">TxID: - / tax and audit record generation</div>
+      </div>
+    </div>
+
+    <div class="button-row">
+      <button class="btn-primary" onclick="startDNET(false)">Run Success Pattern (1,000 JPY / KAS)</button>
+      <button class="btn-danger" onclick="startDNET(true)">Run Failure Pattern (Exchange Failure)</button>
+    </div>
+
+    <div id="record-result" class="card record-card">
+      <strong>📄 Generated Record (R)</strong>
+      <div id="record-details" class="json-box"></div>
+    </div>
+
+    <div id="rollback-result" class="card rollback-card">
+      <strong>↩ Rollback Report</strong>
+      <div id="rollback-details" class="json-box"></div>
+    </div>
+
+    <div id="log"></div>
+  </div>
+
+  <script>
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    function log(msg) {
+      const logBox = document.getElementById("log");
+      logBox.innerHTML += `> ${msg}<br>`;
+      logBox.scrollTop = logBox.scrollHeight;
+    }
+
+    function generateTxId() {
+      return "TX-" + Math.random().toString(36).slice(2, 11).toUpperCase();
+    }
+
+    function resetUI() {
+      ["step-s", "step-e", "step-r"].forEach(id => {
+        const el = document.getElementById(id);
+        el.className = "process-row pending";
+      });
+
+      document.getElementById("tx-info").style.borderColor = "#d0d7de";
+      document.getElementById("tx-info").style.borderLeftColor = "#007bff";
+      document.getElementById("tx-info").innerText = "TxID: -\nStatus: IDLE\nLifecycle: Waiting for payment request";
+
+      document.getElementById("meta-s").innerText = "TxID: - / high-speed settlement execution";
+      document.getElementById("meta-e").innerText = "TxID: - / asset exchange and liquidity selection";
+      document.getElementById("meta-r").innerText = "TxID: - / tax and audit record generation";
+
+      document.getElementById("record-result").style.display = "none";
+      document.getElementById("rollback-result").style.display = "none";
+      document.getElementById("record-details").innerText = "";
+      document.getElementById("rollback-details").innerText = "";
+      document.getElementById("log").innerHTML = "";
+    }
+
+    function setStep(stepId, status) {
+      const el = document.getElementById(stepId);
+      el.className = "process-row";
+      if (status) el.classList.add(status);
+    }
+
+    async function startDNET(forceExchangeFailure = false) {
+      resetUI();
+
+      const txId = generateTxId();
+      document.getElementById("meta-s").innerText = `TxID: ${txId} / high-speed settlement execution`;
+      document.getElementById("meta-e").innerText = `TxID: ${txId} / asset exchange and liquidity selection`;
+      document.getElementById("meta-r").innerText = `TxID: ${txId} / tax and audit record generation`;
+
+      document.getElementById("tx-info").innerText =
+        `TxID: ${txId}\nStatus: COUPLING IN PROGRESS\nLifecycle: S/E/R state alignment started`;
+
+      log(`[${txId}] Payment request accepted.`);
+      log(`[${txId}] SER lifecycle started.`);
+
+      const state = {
+        txId,
+        settlement: "PENDING",
+        exchange: "PENDING",
+        record: "PENDING",
+        lifecycle: "COUPLING"
+      };
+
+      try {
+        setStep("step-s", "active");
+        log(`[${txId}] [S] Settlement request submitted to payment rail / ledger...`);
+        await sleep(700);
+        state.settlement = "DONE";
+        setStep("step-s", "done");
+        log(`[${txId}] [S] Settlement execution completed.`);
+
+        setStep("step-e", "active");
+        log(`[${txId}] [E] Querying exchange route and liquidity sources...`);
+        await sleep(900);
+
+        if (forceExchangeFailure) {
+          throw new Error("Exchange route unavailable or slippage threshold exceeded.");
+        }
+
+        const rate = (15.42 + Math.random() * 0.2).toFixed(4);
+        state.exchange = "DONE";
+        setStep("step-e", "done");
+        log(`[${txId}] [E] Exchange selection completed. Rate=${rate}`);
+
+        setStep("step-r", "active");
+        log(`[${txId}] [R] Generating compliance-ready record and audit trace...`);
+        await sleep(800);
+
+        const auditTraceHash = "AUD-" + Math.random().toString(36).slice(2, 10).toUpperCase();
+        state.record = "DONE";
+        setStep("step-r", "done");
+        log(`[${txId}] [R] Record generation completed. AuditTrace=${auditTraceHash}`);
+
+        state.lifecycle = "FINALIZED";
+        document.getElementById("tx-info").style.borderColor = "#28a745";
+        document.getElementById("tx-info").style.borderLeftColor = "#28a745";
+        document.getElementById("tx-info").innerText =
+          `TxID: ${txId}\nStatus: SER TRANSACTION FINALIZED ✅\nLifecycle: Settlement + Exchange + Record coupled`;
+
+        const recordPayload = {
+          transaction_id: txId,
+          payment_amount_jpy: 1000,
+          settlement_asset: "KAS",
+          exchange_rate: rate,
+          compliance_record: true,
+          audit_trace_hash: auditTraceHash,
+          record_status: "IMMUTABLE_LOG_READY",
+          timestamp: new Date().toISOString()
+        };
+
+        document.getElementById("record-details").innerText =
+          JSON.stringify(recordPayload, null, 2);
+        document.getElementById("record-result").style.display = "block";
+
+        log(`[${txId}] Coupling completed. SER state finalized under one TxID lineage.`);
+
+      } catch (error) {
+        state.lifecycle = "ROLLED_BACK";
+
+        if (state.exchange === "PENDING") {
+          state.exchange = "FAILED";
+          setStep("step-e", "failed");
+        }
+        if (state.record === "PENDING") {
+          state.record = "FAILED";
+          setStep("step-r", "failed");
+        }
+
+        document.getElementById("tx-info").style.borderColor = "#dc3545";
+        document.getElementById("tx-info").style.borderLeftColor = "#dc3545";
+        document.getElementById("tx-info").innerText =
+          `TxID: ${txId}\nStatus: COUPLING FAILED / ROLLED BACK ❌\nLifecycle: Partial completion rejected`;
+
+        const rollbackPayload = {
+          transaction_id: txId,
+          settlement_status: state.settlement,
+          exchange_status: state.exchange,
+          record_status: state.record,
+          lifecycle: state.lifecycle,
+          rollback_reason: error.message,
+          rollback_action: "Invalidate partial state and cancel finalization",
+          timestamp: new Date().toISOString()
+        };
+
+        document.getElementById("rollback-details").innerText =
+          JSON.stringify(rollbackPayload, null, 2);
+        document.getElementById("rollback-result").style.display = "block";
+
+        log(`[${txId}] ERROR: ${error.message}`);
+        log(`[${txId}] Rollback executed. Partial lifecycle was not accepted as final transaction state.`);
+      }
+    }
+  </script>
+</body>
+</html>
