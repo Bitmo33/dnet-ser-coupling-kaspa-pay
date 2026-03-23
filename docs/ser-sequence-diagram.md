@@ -45,6 +45,6 @@ This allows the transaction lifecycle to be treated as one coupled state
 rather than as unrelated events.
 
 Notes
-	•	This diagram is a conceptual reference.
-	•	It is provided for research and explanatory purposes.
-	•	It does not represent production infrastructure or a mandatory implementation.
+•　This diagram is a conceptual reference.
+•　It is provided for research and explanatory purposes.
+•　It does not represent production infrastructure or a mandatory implementation.
