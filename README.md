@@ -55,7 +55,7 @@ for the SER coupling architecture described in the DNET® paper.
 
 A simple reference simulator for the SER coupling lifecycle:
 
-https://bitmo33.github.io/dnet-ser-coupling-simulator/
+https://bitmo33.github.io/dnet-ser-coupling-kaspa-pay/
 
 ## Repository Structure
 
