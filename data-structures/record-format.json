@@ -1,1 +1,33 @@
+{
+  "tx_id": "string",
 
+  "settlement": {
+    "asset_sold": "string",
+    "amount_sold": "number",
+    "timestamp": "ISO8601",
+    "settlement_id": "string"
+  },
+
+  "exchange": {
+    "asset_bought": "string",
+    "amount_bought": "number",
+    "exchange_rate": "number",
+    "rate_timestamp": "ISO8601",
+    "exchange_id": "string"
+  },
+
+  "record": {
+    "acquisition_value": "number",
+    "disposal_value": "number",
+    "capital_gain": "number",
+    "tax_category": "string",
+    "record_timestamp": "ISO8601"
+  },
+
+  "metadata": {
+    "merchant_id": "string",
+    "user_id": "string",
+    "chain": "string",
+    "note": "string"
+  }
+}
