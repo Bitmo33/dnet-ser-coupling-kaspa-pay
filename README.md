@@ -57,7 +57,10 @@ A simple reference simulator for the SER coupling lifecycle:
 
 https://bitmo33.github.io/dnet-ser-coupling-kaspa-pay/
 
-visualizer
+### Visualizer Demo
+
+An interactive visualization of the SER (Settlement–Exchange–Record) coupled transaction flow.
+
 https://bitmo33.github.io/dnet-ser-coupling-kaspa-pay/visualizer.html
 
 ## Repository Structure
