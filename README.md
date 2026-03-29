@@ -1,6 +1,9 @@
 
 Reference simulator for the SER (Settlement–Exchange–Record) coupling model described in the DNET® (Dual Network Exchange Technology) architecture paper.
 
+SER (Settlement–Exchange–Record) is a unified value‑transfer cell that executes payment, asset exchange, and immutable record generation 
+as a single atomic event across any asset type (fiat, crypto, stablecoins, points, NFTs, game assets).
+
 # DNET® SER Coupling Simulator
 
 This repository contains a conceptual simulator based on the  
