@@ -83,6 +83,8 @@ SER (Settlement–Exchange–Record) coupling model described in the DNET®︎ a
 
 DNET: An Interface Architecture for Settlement–Exchange–Record Coupling in Digital Payments
 
+https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6448798
+
 ## Reference Implementation
 
 This repository includes a minimal reference implementation  
