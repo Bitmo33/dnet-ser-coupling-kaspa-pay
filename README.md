@@ -87,7 +87,6 @@ Title: DNET: An Interface Architecture
 for Settlement–Exchange–Record Coupling in Digital Payments
 
 Repository: SSRN (Elsevier) / Indexed in Google Scholar
-Abstract ID: 6448798
 
 “This simulator serves as the technical bridge between the academic theory 
 of SER coupling and its practical implementation logic.”
