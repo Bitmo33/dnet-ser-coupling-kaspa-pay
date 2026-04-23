@@ -81,6 +81,13 @@ SER (Settlement–Exchange–Record) coupling model described in the DNET®︎ a
 
 ## Related Paper
 
+The theoretical framework of this simulator is based on the following paper:
+
+Title: DNET: An Interface Architecture for Settlement–Exchange–Record Coupling in Digital Payments
+Repository: SSRN (Elsevier) / Indexed in Google Scholar
+Abstract ID: 6448798
+
+“This simulator serves as the technical bridge between the academic theory of SER coupling and its practical implementation logic.”
 DNET: An Interface Architecture for Settlement–Exchange–Record Coupling in Digital Payments
 
 https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6448798
